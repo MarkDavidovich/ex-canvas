@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Canvas</title>
+</head>
+
+<body onload="onInit()">
+    <h3>Canvas time</h3>
+
+    <canvas width="500" height="500" onmousedown="onStartLine(event)" onmousemove="onDrawLine(event)"
+        onmouseup="onEndLine(event)"></canvas>
+
+
+    <div class="btns">
+        <section class="color-settings">
+            <label for="pencil-width">pencil width</label>
+            <input type="color" class="color-picker" onchange="onColorChange(event)">
+        </section>
+
+        <section class="width-settings">
+            <label for="pencil-width">pencil width</label>
+            <input type="range" class="pencil-width" min="1" max="50" value="5" onchange="onWidthChange(event)">
+            <span class="width-value">5</span>
+        </section>
+
+        <section class="tool-btns">
+            <button>tool 1</button>
+            <button>tool 2</button>
+            <button>tool 3</button>
+            <button>tool 4</button>
+        </section>
+
+        <section class="action-btns">
+            <button onclick="onSave()">save</button>
+            <button onclick="onLoad()">load</button>
+            <button onclick="onClearCanvas()">clear</button>
+            <button onclick="">upload</button>
+        </section>
+    </div>
+
+    <script src="js/services/storage.service.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
