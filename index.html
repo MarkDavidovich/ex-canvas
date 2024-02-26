@@ -45,9 +45,10 @@
             <a href="#" class="download-btn" onclick="onDownload(this)" download="my-img.jpg">Download</a>
             <label class="upload-btn" for="img-upload">Upload</label>
             <input type="file" id="img-upload" onchange="onImgInput(event)" accept="image/*" style="display:none;" />
+            <button class="btn" onclick="onUploadImg()"> Upload to Facebook </button>
         </section>
     </div>
-
+    <script src="js/facebook.share.js"></script>
     <script src="js/services/storage.service.js"></script>
     <script src="js/main.js"></script>
 </body>
