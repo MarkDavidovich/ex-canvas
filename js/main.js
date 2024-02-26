@@ -12,6 +12,10 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     gTool = 'pencil'
+
+    gElCanvas.addEventListener('touchstart', onTouchStart)
+    gElCanvas.addEventListener('touchmove', onTouchMove)
+    gElCanvas.addEventListener('touchend', onTouchEnd)
 }
 
 function onClick(ev) {
@@ -98,6 +102,13 @@ function onLoad() {
 
 function onSetTool(tool) {
     gTool = tool
+
+    document.querySelectorAll('.tool-btns button').forEach(btn => {
+        btn.classList.remove('active')
+    })
+
+    document.querySelector(`.${tool}-btn`).classList.add('active')
+
     console.log(gTool)
 }
 
@@ -148,6 +159,51 @@ function onWidthChange(ev) {
     document.querySelector(".width-value").innerHTML = brushWidth
 }
 
-function renderButton() {
+//Touch functions
+function onTouchStart(ev) {
+    ev.preventDefault()
+    const touch = ev.touches[0]
+    onStartLine({
+        offsetX: touch.clientX - gElCanvas.getBoundingClientRect().left,
+        offsetY: touch.clientY - gElCanvas.getBoundingClientRect().top
+    })
+}
 
+function onTouchMove(ev) {
+    ev.preventDefault()
+    const touch = ev.touches[0]
+    onDrawLine({
+        offsetX: touch.clientX - gElCanvas.getBoundingClientRect().left,
+        offsetY: touch.clientY - gElCanvas.getBoundingClientRect().top
+    })
+}
+
+function onTouchEnd() {
+    onEndLine()
+}
+
+function onDownload(elLink) {
+    const canvasContent = gElCanvas.toDataURL('image/png')
+    elLink.href = canvasContent;
+    elLink.download = 'canvas_image.png'
+}
+
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderImg)
+}
+
+function loadImageFromInput(ev, onImageReady) {
+    const reader = new FileReader()
+
+    reader.onload = ev => {
+        let img = new Image()
+        img.src = ev.target.result
+        img.onload = () => onImageReady(img)
+    }
+    reader.readAsDataURL(ev.target.files[0])
+}
+
+function renderImg(img) {
+    gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }

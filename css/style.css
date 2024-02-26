@@ -1,5 +1,11 @@
 * {
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     box-sizing: border-box;
+}
+
+h2 {
+    margin: 2px;
+    color: #3a3c5c
 }
 
 body {
@@ -15,15 +21,66 @@ body {
 
 canvas {
     background-color: white;
-    border: 1px solid lightgray;
+    border: 5px solid #4d4f79;
+    border-radius: 10px;
 }
 
 .btns {
-    width: 30%;
-    border: 2px solid whitesmoke;
-    padding: 2em;
+    width: 20%;
+    border: 5px solid #4d4f79;
+    padding: 1.2em;
+
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+button {
+    padding: 5px;
+    border-radius: 6px;
+    background-color: #4d4f79;
+    color: whitesmoke;
+    border: none;
+    cursor: pointer;
+}
+
+.pencil-width {
+    appearance: none;
+    background: #4d4f79;
+    height: 5px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.pencil-width::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: solid 1px white;
+    border-radius: 5px;
+    background: #3a3c5c;
+    cursor: pointer;
+}
+
+.download-btn,
+.upload-btn {
+    padding: 5px;
+    background-color: #4d4f79;
+    border-radius: 5px;
+    color: white;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+
+.color-picker {
+    background-color: #3a3c5c;
+    width: 100%;
+    border: none;
+}
+
+.tool-btns button.active {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.856);
 }
