@@ -19,8 +19,9 @@ canvas {
 }
 
 .btns {
-    padding: 5px;
+    width: 30%;
     border: 2px solid whitesmoke;
+    padding: 2em;
     border-radius: 10px;
     display: flex;
     flex-direction: column;

@@ -3,60 +3,137 @@
 let gElCanvas
 let gCtx
 let gColor
-
+let gTool
 
 let gPen = { pos: null, isDown: false }
-let gLine = []
+let gShape = []
 
 function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
+    gTool = 'pencil'
+}
+
+function onClick(ev) {
+    const { offsetX, offsetY } = ev
+
+    switch (gTool) {
+        case 'pencil':
+            return
+
+        case 'rect':
+            drawRect(offsetX, offsetY)
+            break
+        case 'circle':
+            drawCircle(offsetX, offsetY, 30)
+            break
+    }
+
 }
 
 function onStartLine(ev) {
+    if (gTool !== 'pencil') return
     gPen.pos = { x: ev.offsetX, y: ev.offsetY }
     gPen.isDown = true
-    gLine = []
-    gLine.push(gPen.pos)
+    gShape = []
+    gShape.push(gPen.pos)
 
     gCtx.beginPath()
     gCtx.moveTo(gPen.pos.x, gPen.pos.y)
 }
+
 
 function onDrawLine(ev) {
     if (!gPen.isDown) return
     const { offsetX, offsetY } = ev
 
     gPen.pos = { x: offsetX, y: offsetY }
-    gLine.push(gPen.pos)
+    gShape.push(gPen.pos)
 
     gCtx.lineTo(offsetX, offsetY)
     gCtx.stroke()
 }
 
-function onEndLine(ev) {
+function onEndLine() {
     gPen.isDown = false
     gCtx.closePath()
 }
 
 function onClearCanvas() {
-    gLine = []
+    gShape = []
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function onSave() {
-    saveToStorage('canvas', gLine)
+    saveToStorage('canvas', { tool: gTool, color: gColor, shape: gShape })
 }
 
 function onLoad() {
-    gLine = loadFromStorage('canvas')
 
-    gCtx.moveTo(gLine[0].x, gLine[0].y)
+    const savedData = loadFromStorage('canvas')
+
+    if (savedData) {
+        gTool = savedData.tool
+        gColor = savedData.color
+        gShape = savedData.shape
+
+
+        if (gShape.length > 0) {
+            if (gTool === 'pencil') {
+                gCtx.moveTo(gShape[0].x, gShape[0].y)
+                gCtx.beginPath()
+
+                gShape.forEach(pos => gCtx.lineTo(pos.x, pos.y))
+                gCtx.stroke()
+            }
+            else if (gTool === 'rect') {
+                gShape.forEach(rect => drawRect(rect.x, rect.y))
+            }
+            else if (gTool === 'circle') {
+                gShape.forEach(circle => drawCircle(circle.x, circle.y, 30))
+            }
+        }
+    }
+}
+
+function onSetTool(tool) {
+    gTool = tool
+    console.log(gTool)
+}
+
+function drawRect(x, y) {
+    const rect = {
+        type: 'rect',
+        x,
+        y,
+        width: 120,
+        height: 100,
+        color: gColor,
+    }
+
+    gCtx.fillStyle = rect.color
+    gCtx.fillRect(rect.x, rect.y, rect.width, rect.height)
+
+    gShape.push(rect);
+}
+
+function drawCircle(x, y, radius) {
+    const circle = {
+        type: 'circle',
+        x,
+        y,
+        radius,
+        color: gColor,
+    }
+
     gCtx.beginPath()
-
-    gLine.forEach(pos => gCtx.lineTo(pos.x, pos.y))
-
+    gCtx.arc(x, y, radius, 0, 2 * Math.PI)
+    gCtx.fillStyle = gColor
+    gCtx.fill()
     gCtx.stroke()
+    gCtx.closePath()
+
+    gShape.push(circle);
 }
 
 function onColorChange(ev) {
@@ -68,5 +145,9 @@ function onWidthChange(ev) {
     const brushWidth = ev.target.value
     gCtx.lineWidth = brushWidth
 
-    document.querySelector("width-value").innerHTML = brushWidth
+    document.querySelector(".width-value").innerHTML = brushWidth
+}
+
+function renderButton() {
+
 }

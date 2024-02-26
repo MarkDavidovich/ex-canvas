@@ -11,27 +11,26 @@
 <body onload="onInit()">
     <h3>Canvas time</h3>
 
-    <canvas width="500" height="500" onmousedown="onStartLine(event)" onmousemove="onDrawLine(event)"
-        onmouseup="onEndLine(event)"></canvas>
+    <canvas width="500" height="500" onclick="onClick(event)" onmousedown="onStartLine(event)"
+        onmousemove="onDrawLine(event)" onmouseup="onEndLine(event)"></canvas>
 
 
     <div class="btns">
         <section class="color-settings">
-            <label for="pencil-width">pencil width</label>
+            <label for="pencil-width">color:</label>
             <input type="color" class="color-picker" onchange="onColorChange(event)">
         </section>
 
         <section class="width-settings">
-            <label for="pencil-width">pencil width</label>
-            <input type="range" class="pencil-width" min="1" max="50" value="5" onchange="onWidthChange(event)">
+            <label for="pencil-width">width:</label>
+            <input type="range" class="pencil-width" min="1" max="30" value="5" onchange="onWidthChange(event)">
             <span class="width-value">5</span>
         </section>
 
         <section class="tool-btns">
-            <button>tool 1</button>
-            <button>tool 2</button>
-            <button>tool 3</button>
-            <button>tool 4</button>
+            <button onclick="onSetTool('rect')">Rectangle</button>
+            <button onclick="onSetTool('circle')">Circle</button>
+            <button onclick="onSetTool('pencil')">Pencil</button>
         </section>
 
         <section class="action-btns">
