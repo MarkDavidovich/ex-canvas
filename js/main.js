@@ -115,17 +115,18 @@ function onSetTool(tool) {
 function drawRect(x, y) {
     const rect = {
         type: 'rect',
-        x,
-        y,
+        x: x,
+        y: y,
         width: 120,
         height: 100,
         color: gColor,
     }
 
     gCtx.fillStyle = rect.color
-    gCtx.fillRect(rect.x, rect.y, rect.width, rect.height)
 
-    gShape.push(rect);
+    gCtx.fillRect(x, y, rect.width, rect.height)
+
+    gShape.push(rect)
 }
 
 function drawCircle(x, y, radius) {
@@ -141,10 +142,8 @@ function drawCircle(x, y, radius) {
     gCtx.arc(x, y, radius, 0, 2 * Math.PI)
     gCtx.fillStyle = gColor
     gCtx.fill()
-    gCtx.stroke()
     gCtx.closePath()
-
-    gShape.push(circle);
+    gShape.push(circle)
 }
 
 function onColorChange(ev) {
